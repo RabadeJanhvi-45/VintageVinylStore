@@ -104,12 +104,10 @@ public class RecordRepository {
     if (!record.getPressings().isEmpty()) {
 
       throw new IllegalStateException(
-          "Cannot delete Record. Pressings exist.");
-
+          "Cannot delete record. Pressings exist.");
     }
 
     recordCache.remove(recordId);
-
   }
 
 }

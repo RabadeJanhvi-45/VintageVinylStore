@@ -24,6 +24,7 @@ public class PressingRepository {
     pressingCache.put(
         pressing.getPressingId(),
         pressing);
+
   }
 
   /*
@@ -115,20 +116,23 @@ public class PressingRepository {
 
     List<Pressing> list = new ArrayList<>();
 
-    for (Pressing p : pressingCache.values()) {
+    for (Pressing pressing : pressingCache.values()) {
 
-      if (p.getRecordId() == recordId
-          &&
-          !p.isDeleted()) {
+      if (pressing.getRecordId() == recordId
+          && !pressing.isDeleted()) {
 
-        list.add(p);
-
+        list.add(pressing);
       }
-
     }
 
     return list;
-
   }
 
+  public Pressing getPressing(long pressingId) {
+    return pressingCache.get(pressingId);
+  }
+
+  public Collection<Pressing> getAllPressings() {
+    return pressingCache.values();
+  }
 }

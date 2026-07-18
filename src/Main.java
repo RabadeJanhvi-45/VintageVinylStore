@@ -1,57 +1,28 @@
-import enums.*;
-import exceptions.DuplicateCatalogueException;
-import model.record.*;
-import repository.RecordRepository;
+import VintageVinylStore.test.*;
 
 public class Main {
 
   public static void main(String[] args) {
 
-    RecordRepository repo = new RecordRepository();
+    System.out.println("========== FEATURE 01 ==========");
+    Feature01Test.main(args);
 
-    try {
+    System.out.println("\n========== FEATURE 02 : TEST 1 ==========");
+    Feature02Test1.main(args);
 
-      LP lp = new LP(
-          1,
-          "Pink Floyd",
-          "The Wall",
-          "EMI",
-          "CAT001",
-          Country.UK,
-          1979,
-          RPM.RPM_33,
-          MonoStereo.STEREO,
-          true);
+    System.out.println("\n========== FEATURE 02 : TEST 2 ==========");
+    Feature02Test2.main(args);
 
-      Single single = new Single(
-          2,
-          "Queen",
-          "Bohemian Rhapsody",
-          "EMI",
-          "CAT002",
-          Country.UK,
-          1975,
-          RPM.RPM_45,
-          MonoStereo.STEREO,
-          "Bohemian Rhapsody",
-          "I'm In Love With My Car");
+    System.out.println("\n========== FEATURE 02 : TEST 3 ==========");
+    Feature02Test3.main(args);
 
-      repo.addRecord(lp);
-      repo.addRecord(single);
+    System.out.println("\n========== FEATURE 02 : TEST 4 ==========");
+    Feature02Test4.main(args);
 
-      System.out.println("===== RECORDS =====");
+    System.out.println("\n========== FEATURE 02 : TEST 5 ==========");
+    Feature02Test5.main(args);
 
-      for (model.record.Record r : repo.getAllRecords()) {
-
-        System.out.println(r.describe());
-        System.out.println("Sleeve : " + r.defaultSleeveType());
-        System.out.println("Weight : " + r.suggestedJacketWeightG());
-        System.out.println("--------------------------------");
-      }
-
-    } catch (DuplicateCatalogueException e) {
-      System.out.println(e.getMessage());
-    }
-
+    System.out.println("\n========== FEATURE 02 : TEST 6 ==========");
+    Feature02Test6.main(args);
   }
 }
