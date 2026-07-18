@@ -1,0 +1,20 @@
+# Java
+*.class
+
+# VS Code
+.vscode/
+
+# Eclipse
+.settings/
+.project
+.classpath
+
+# IntelliJ
+.idea/
+
+# Build
+bin/
+out/
+
+# Logs
+*.log
