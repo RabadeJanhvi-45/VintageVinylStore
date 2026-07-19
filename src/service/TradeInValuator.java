@@ -14,129 +14,124 @@ import java.util.List;
 
 public class TradeInValuator {
 
-  private final SoldHistoryRepository historyRepository;
-  private final CounterfeitBlacklistRepository blacklistRepository;
-  private final ValuationSettings settings;
+    private final SoldHistoryRepository historyRepository;
+    private final CounterfeitBlacklistRepository blacklistRepository;
+    private final ValuationSettings settings;
 
-  public TradeInValuator(SoldHistoryRepository historyRepository,
-      CounterfeitBlacklistRepository blacklistRepository,
-      ValuationSettings settings) {
+    public TradeInValuator(
+            SoldHistoryRepository historyRepository,
+            CounterfeitBlacklistRepository blacklistRepository,
+            ValuationSettings settings) {
 
-    this.historyRepository = historyRepository;
-    this.blacklistRepository = blacklistRepository;
-    this.settings = settings;
-  }
-
-  public List<Valuation> estimateWholesale(List<ValuationInput> inputs)
-      throws InsufficientHistoryException {
-
-    int comparables = historyRepository.getComparableCount();
-
-    if (comparables < settings.getMinimumComparables()) {
-      throw new InsufficientHistoryException(
-          "Not enough comparable sales.");
+        this.historyRepository = historyRepository;
+        this.blacklistRepository = blacklistRepository;
+        this.settings = settings;
     }
 
-    String confidence;
+    public List<Valuation> estimateWholesale(List<ValuationInput> inputs)
+            throws InsufficientHistoryException {
 
-    if (comparables >= 10) {
-      confidence = "HIGH";
-    } else if (comparables >= 5) {
-      confidence = "MEDIUM";
-    } else {
-      confidence = "LOW";
+        int comparables = historyRepository.getComparableCount();
+
+        if (comparables < settings.getMinimumComparables()) {
+            throw new InsufficientHistoryException(
+                    "Not enough comparable sales.");
+        }
+
+        String confidence;
+
+        if (comparables >= 10) {
+            confidence = "HIGH";
+        } else if (comparables >= 5) {
+            confidence = "MEDIUM";
+        } else {
+            confidence = "LOW";
+        }
+
+        BigDecimal average = historyRepository.calculateAveragePrice();
+
+        List<Valuation> valuations = new ArrayList<>();
+
+        for (ValuationInput input : inputs) {
+
+            valuations.add(
+                    new Valuation(
+                            input.getPressingId(),
+                            average,
+                            confidence,
+                            confidence.equals("LOW"),
+                            false));
+        }
+
+        return valuations;
     }
 
-    BigDecimal average = historyRepository.calculateAveragePrice();
+    public BigDecimal computeOffer(
+            List<Valuation> valuations,
+            String mode) {
 
-    List<Valuation> valuations = new ArrayList<>();
+        BigDecimal total = BigDecimal.ZERO;
 
-    for (ValuationInput input : inputs) {
+        for (Valuation valuation : valuations) {
+            total = total.add(valuation.getWholesaleValue());
+        }
 
-      valuations.add(
-          new Valuation(
-              input.getPressingId(),
-              average,
-              confidence,
-              confidence.equals("LOW"),
-              false));
+        if ("store_credit".equalsIgnoreCase(mode)) {
+            total = total.multiply(
+                    BigDecimal.ONE.add(
+                            settings.getStoreCreditBonus()));
+        }
 
+        return total.setScale(2, RoundingMode.HALF_UP);
     }
 
-    return valuations;
-  }
+    public BigDecimal applyRarityMatrix(
+            String rarity,
+            BigDecimal basePrice) {
 
-  public BigDecimal computeOffer(List<Valuation> valuations,
-      String mode) {
+        BigDecimal multiplier;
 
-    BigDecimal total = BigDecimal.ZERO;
+        switch (rarity.toUpperCase()) {
 
-    for (Valuation valuation : valuations) {
+            case "COMMON":
+                multiplier = new BigDecimal("1.00");
+                break;
 
-      total = total.add(
-          valuation.getWholesaleValue());
+            case "UNCOMMON":
+                multiplier = new BigDecimal("1.20");
+                break;
 
+            case "RARE":
+                multiplier = new BigDecimal("1.50");
+                break;
+
+            case "VERY_RARE":
+                multiplier = new BigDecimal("2.00");
+                break;
+
+            default:
+                multiplier = BigDecimal.ONE;
+        }
+
+        return basePrice.multiply(multiplier)
+                .setScale(2, RoundingMode.HALF_UP);
     }
 
-    if ("store_credit".equalsIgnoreCase(mode)) {
+    public List<ValuationInput> flagSuspicious(
+            List<ValuationInput> inputs) {
 
-      total = total.multiply(
-          BigDecimal.ONE.add(
-              settings.getStoreCreditBonus()));
+        List<ValuationInput> suspicious = new ArrayList<>();
 
+        for (ValuationInput input : inputs) {
+
+            if (input.getConditionPhotos() < 2
+                    || (!"NM".equalsIgnoreCase(input.getMediaGrade())
+                    && !"VG+".equalsIgnoreCase(input.getMediaGrade()))) {
+
+                suspicious.add(input);
+            }
+        }
+
+        return suspicious;
     }
-
-    return total.setScale(2, RoundingMode.HALF_UP);
-  }
-
-  public BigDecimal applyRarityMatrix(String rarity,
-      BigDecimal basePrice) {
-
-    BigDecimal multiplier;
-
-    switch (rarity.toUpperCase()) {
-
-      case "COMMON":
-        multiplier = new BigDecimal("1.00");
-        break;
-
-      case "UNCOMMON":
-        multiplier = new BigDecimal("1.20");
-        break;
-
-      case "RARE":
-        multiplier = new BigDecimal("1.50");
-        break;
-
-      case "VERY_RARE":
-        multiplier = new BigDecimal("2.00");
-        break;
-
-      default:
-        multiplier = BigDecimal.ONE;
-    }
-
-    return basePrice.multiply(multiplier)
-        .setScale(2, RoundingMode.HALF_UP);
-  }
-
-  public List<ValuationInput> flagSuspicious(
-      List<ValuationInput> inputs) {
-
-    List<ValuationInput> suspicious = new ArrayList<>();
-
-    for (ValuationInput input : inputs) {
-
-      if (input.getConditionPhotos() < 2
-          || !"NM".equalsIgnoreCase(input.getMediaGrade())
-              && !"VG+".equalsIgnoreCase(input.getMediaGrade())) {
-
-        suspicious.add(input);
-      }
-
-    }
-
-    return suspicious;
-  }
-
 }
