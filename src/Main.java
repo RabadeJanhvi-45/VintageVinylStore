@@ -46,20 +46,36 @@ public class Main {
 
     // System.out.println("\n========== FEATURE 03 : TEST 5 ==========");
     // Feature03Test5.run();
-    // System.out.println("========== FEATURE 04 : TEST 1 ==========
+    // System.out.println("========== FEATURE 04 : TEST 1 ==========");
     // Feature04Test1.run();
-    // System.out.println("\n========== FEATURE 04 : TEST 2 ==========
+    // System.out.println("\n========== FEATURE 04 : TEST 2 ==========");
     // Feature04Test2.run();
-    // System.out.println("\n========== FEATURE 04 : TEST 3 ==========
+    // System.out.println("\n========== FEATURE 04 : TEST 3 ==========");
     // Feature04Test3.run();
 
-    // System.out.println("\n========== FEATURE 04 : TEST 4 ==========
+    // System.out.println("\n========== FEATURE 04 : TEST 4 ==========");
     // Feature04Test4.run();
     // System.out.println("\n========== FEATURE 04 : TEST 5 ==========
-    // Feature04Test5.run
 
-    // Feature04Test7.run
-    System.out.println("\n========== FEATURE 04 : TEST 8 ==========");
-Feature04Test8.run();
-}
+    // // Feature04Test7.run
+    // System.out.println("\n========== FEATURE 04 : TEST 8 ==========");
+    // Feature04Test8.run();
+    // System.out.println("\n========== FEATURE 05 : TEST 1 ==========
+    // Feature05Test1.run();
+
+    // System.out.println("\n========== FEATURE 05 : TEST 2 ==========
+    // Feature05Test2.run();
+    // System.out.println("\n========== FEATURE 05 : TEST 3 ==========
+    // Feature05Test3.run();
+    // System.out.println("========== FEATURE 05 : TEST 4 ==========");
+    // Feature05Test4.run();
+    // System.out.println("========== FEATURE 05 : TEST 5 ==========");
+    // Feature05Test5.run();
+    // System.out.println("========== FEATURE 05 : TEST 6 ==========
+    // Feature05Test6.run();
+    // System.out.println("========== FEATURE 05 : TEST 7 ==========
+    // Feature05Test7.run();
+System.out.println("========== FEATURE 05 : TEST 7 ==========");
+Feature05Test8.run();
+  }
 }
