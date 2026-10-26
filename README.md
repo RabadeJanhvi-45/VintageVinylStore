@@ -1,95 +1,134 @@
+'<div align="center">
+
 # Vintage Vinyl Store Management System
 
-## 1. Project Overview
+**A modular Java console application for managing the core workflows of a vintage vinyl record store.**
 
-The Vintage Vinyl Store Management System is a Java-based application designed to manage the core operational workflows of a vintage vinyl record store.
+![Java](https://img.shields.io/badge/Java-Application-ED8B00?style=flat-square&logo=openjdk&logoColor=white)
+![Testing](https://img.shields.io/badge/Testing-Acceptance%20Tests-2E8B57?style=flat-square)
+![Architecture](https://img.shields.io/badge/Architecture-Layered-6366F1?style=flat-square)
 
-The system covers catalogue management, inventory operations, customer wantlists, trade-in valuation, consignment, point-of-sale operations, reservations, receipt processing, and centralized exception handling.
-
-The project was developed incrementally using a feature-based development approach. Each feature was implemented and validated against dedicated acceptance tests.
-
-The first sprint of development covers Features 01 through 10.
+</div>
 
 ---
 
-# 2. Problem Statement
+## Overview
 
-A vintage vinyl store needs to manage multiple interconnected business processes such as maintaining its catalogue, tracking inventory, handling customer requests, processing trade-ins and consignments, completing sales, managing reservations, and generating transaction receipts.
+The **Vintage Vinyl Store Management System** is a Java-based application designed to organize the operational workflows of a vintage vinyl record store. It brings together catalogue management, inventory, customer wantlists, trade-ins, consignment, point-of-sale operations, reservations, receipt processing, and centralized exception handling.
 
-Without a structured application, these operations can become difficult to maintain and can lead to:
+The project is developed incrementally using a feature-based approach. The repository documentation identifies the first development sprint as covering **Features 01–10**, with functionality validated through dedicated acceptance tests.
 
-- Duplicate catalogue records
-- Incorrect inventory information
-- Inconsistent trade-in valuations
-- Poor handling of customer wantlists
-- Invalid or incomplete transactions
-- Reservation conflicts
-- Receipt generation and storage failures
-- Inconsistent error handling across modules
+## Problem Statement
 
-The objective of this project is to build a modular Java application that encapsulates these business rules and provides reliable, testable components for each major store operation.
+A vinyl store needs to keep catalogue records, stock availability, customer requests, trade-ins, consignment records, sales, reservations, and receipts consistent. Without a structured system, these workflows can lead to duplicate records, inaccurate inventory, invalid transactions, reservation conflicts, and inconsistent error handling.
 
----
+This project aims to represent these workflows in a modular Java application with distinct responsibilities and testable business logic.
 
-# 3. Project Objectives
-
-The main objectives of the project are:
-
-1. Build a modular Java application for vinyl store operations.
-2. Separate business logic from data-access responsibilities.
-3. Implement domain-specific business rules.
-4. Provide reusable services and repositories.
-5. Implement structured exception handling.
-6. Validate functionality using acceptance tests.
-7. Handle file and receipt operations reliably.
-8. Maintain source code using Git feature branches.
-9. Ensure new features can be integrated without breaking existing functionality.
-
----
-
-# 4. Functional Scope
-
-The system currently covers the following functional areas:
+## Functional Scope
 
 | Feature | Module | Purpose |
-|---------|--------|---------|
-| Feature 01 | Catalogue | Manage vinyl catalogue records |
-| Feature 02 | Search & Validation | Search and validate catalogue information |
-| Feature 03 | Inventory | Manage stock and availability |
-| Feature 04 | Wantlist | Manage customer wanted records |
-| Feature 05 | Trade-In | Calculate and validate trade-in valuations |
-| Feature 06 | Consignment | Manage consigned vinyl records |
-| Feature 07 | POS | Process store sales and payments |
-| Feature 08 | Reservation | Manage customer reservations |
-| Feature 09 | Receipt Processing | Generate, store and audit receipts |
-| Feature 10 | Exception Handling | Centralize application error handling |
+|---|---|---|
+| 01 | Catalogue | Manage vinyl catalogue records |
+| 02 | Search & Validation | Search and validate catalogue information |
+| 03 | Inventory | Manage stock and availability |
+| 04 | Wantlist | Manage customer wanted records |
+| 05 | Trade-In | Calculate and validate trade-in valuations |
+| 06 | Consignment | Manage consigned vinyl records |
+| 07 | Point of Sale (POS) | Process store sales and payments |
+| 08 | Reservation | Manage customer reservations |
+| 09 | Receipt Processing | Generate, store, and audit receipts |
+| 10 | Exception Handling | Centralize application error handling |
 
----
+## System Architecture
 
-# 5. System Architecture
-
-The application follows a layered architecture that separates responsibilities between different components.
+The application uses a **layered architecture** to separate business logic, data access, domain objects, and error handling.
 
 ```text
-                    ┌──────────────────────┐
-                    │      Main / Tests    │
-                    └──────────┬───────────┘
-                               │
-                               ▼
-                    ┌──────────────────────┐
-                    │      Service Layer   │
-                    │   Business Logic     │
-                    └──────────┬───────────┘
-                               │
-                ┌──────────────┴──────────────┐
-                ▼                             ▼
-      ┌──────────────────┐          ┌──────────────────┐
-      │ Repository Layer │          │  Exception Layer │
-      │ Data Access      │          │ Error Handling   │
-      └────────┬─────────┘          └──────────────────┘
+                  ┌──────────────────────┐
+                  │      Main / Tests    │
+                  └──────────┬───────────┘
+                             │
+                             ▼
+                  ┌──────────────────────┐
+                  │     Service Layer    │
+                  │    Business Logic    │
+                  └──────────┬───────────┘
+                             │
+                ┌────────────┴────────────┐
+                ▼                         ▼
+      ┌──────────────────┐      ┌──────────────────┐
+      │ Repository Layer │      │ Exception Layer  │
+      │    Data Access   │      │  Error Handling  │
+      └────────┬─────────┘      └──────────────────┘
                │
                ▼
       ┌──────────────────┐
       │    Model Layer   │
-      │ Domain Objects   │
+      │  Domain Objects  │
       └──────────────────┘
+```
+
+### Layer Responsibilities
+
+- **Service layer:** Coordinates business rules and application workflows.
+- **Repository layer:** Encapsulates data-access responsibilities.
+- **Model layer:** Represents the domain objects used by the application.
+- **Exception layer:** Provides structured handling for application errors.
+- **Main and tests:** Provide application entry points and validation of behavior.
+
+## Project Structure
+
+```text
+VintageVinylStore/
+├── resources/        # Project resources
+├── src/              # Java source code
+├── test/             # Test and acceptance-test code
+├── .gitignore
+└── README.md
+```
+
+The exact packages and files are organized within the `src` and `test` directories.
+
+## Getting Started
+
+### Prerequisites
+
+- A Java Development Kit (JDK) compatible with the project configuration
+- Git
+- The build or test tooling configured in the repository
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/RabadeJanhvi-45/VintageVinylStore.git
+cd VintageVinylStore
+```
+
+### 2. Open the project
+
+Open the folder in IntelliJ IDEA or VS Code with Java support. Explore `src` for application code, `test` for tests, and `resources` for supporting files.
+
+### 3. Build and test
+
+Check the repository files and project configuration to identify the configured build tool and test commands. Run the available tests before making changes to verify the current behavior.
+
+> **Note:** The repository overview provided does not establish the exact build tool, JDK version, or test command. These should be confirmed from the project configuration before adding copy-paste build instructions.
+
+## Engineering Practices
+
+The documented project approach includes:
+
+- **Feature-based development:** Implementing functionality incrementally.
+- **Modular design:** Separating responsibilities across application layers.
+- **Business-rule validation:** Applying rules specific to store operations.
+- **Acceptance testing:** Validating features against dedicated tests.
+- **Centralized exception handling:** Organizing error handling across modules.
+- **Version control:** Using Git feature branches to support incremental changes.
+
+## Potential Next Steps
+
+- Add a documented build and test command.
+- Include sample console workflows or screenshots, if available.
+- Document the domain models and key business rules.
+- Add a feature-by-feature test summary.
+- Provide example input and output for catalogue, inventory, sales, and reservations.
